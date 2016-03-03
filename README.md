@@ -1,6 +1,6 @@
 # Weather
 
-**TODO: Retrieve current weather conditions from NOAA
+Retrieve current weather conditions from NOAA
 
 ## Run
 `mix run -e 'Weather.CLI.main(["kpvu"])'`
