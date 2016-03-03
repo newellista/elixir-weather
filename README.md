@@ -1,20 +1,25 @@
 # Weather
 
-**TODO: Add description**
+**TODO: Retrieve current weather conditions from NOAA
 
-## Installation
+## Run
+`mix run -e 'Weather.CLI.main(["kpvu"])'`
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+or
 
-  1. Add weather to your list of dependencies in `mix.exs`:
+```
+$ mix escript.build
+$ ./weather kpvu
+```
 
-        def deps do
-          [{:weather, "~> 0.0.1"}]
-        end
+## Description
+This is my solution to the problem described in "Programming Elixir" at the end of Chapter 13.  The problem is as follows:
 
-  2. Ensure weather is started before your application:
+```
+In the United States, the National Oceanic and Atmospheric Acministration provides hourly XML feeds of conditions at 1,800 locations.  For example, the feed for a small airport close to where I'm writing this is at http://w1.weather.gov/xml/current_obs/KPVU.html.
 
-        def application do
-          [applications: [:weather]]
-        end
+Write an application that fetches this data, parses it, and displays it in a nice format.
+
+(Hint: you might not have to download a library to handle XML parsing.)
+```
 
