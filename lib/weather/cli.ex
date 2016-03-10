@@ -1,5 +1,7 @@
 defmodule Weather.CLI do
 
+  import Weather.WeatherReporter, only: [fetch: 1]
+
   def main(argv) do
     argv
       |> parse_args
@@ -7,12 +9,12 @@ defmodule Weather.CLI do
   end
 
   def parse_args(argv) do
-    parse = OptionParser.parse(argv, switches: [help: :boolean], 
+    parse = OptionParser.parse(argv, switches: [help: :boolean],
                                      aliases: [h: :help])
 
     case parse do
       { [ help: true ], _, _ } -> :help
-      { _, [ airport ], _ } -> { airport }
+      { _, airport, _ } -> { airport }
       _ -> :help
     end
   end
@@ -21,12 +23,12 @@ defmodule Weather.CLI do
     IO.puts """
     usage: weather <airport_code> # see http://w1.weather.gov/xml/current_obs for codes
     """
-    
+
     System.halt(0)
   end
 
-  def process( { airport } ) do
-    Weather.WeatherReport.fetch(airport)
+  def process(airport) do
+    fetch(airport)
       |> decode_response
       |> print_current_conditions
   end
@@ -34,9 +36,11 @@ defmodule Weather.CLI do
   def decode_response(body), do: body
 
   def print_current_conditions(conditions) do
-    IO.puts "Current weather conditions at #{conditions.location} are #{conditions.weather}"
-    IO.puts "Temperature: #{conditions.temperature_string}"
-    IO.puts "Wind is #{conditions.wind_string}"
-    IO.puts "Relative humidity: #{conditions.relative_humidity}"
+    IO.puts ~s"""
+    Current weather conditions at #{conditions.location} are #{conditions.weather}
+    Temperature: #{conditions.temperature_string}
+    Wind is #{conditions.wind_string}
+    Relative humidity: #{conditions.relative_humidity}
+    """
   end
 end
