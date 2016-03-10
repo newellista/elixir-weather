@@ -1,6 +1,5 @@
 defmodule Weather.CLI do
-
-  import Weather.WeatherReporter, only: [fetch: 1]
+  import Weather.WeatherReport, only: [fetch: 1]
 
   def main(argv) do
     argv
@@ -14,7 +13,7 @@ defmodule Weather.CLI do
 
     case parse do
       { [ help: true ], _, _ } -> :help
-      { _, airport, _ } -> { airport }
+      { _, [ airport ], _ } -> airport
       _ -> :help
     end
   end
@@ -29,13 +28,14 @@ defmodule Weather.CLI do
 
   def process(airport) do
     fetch(airport)
-      |> decode_response
-      |> print_current_conditions
+      |> print_response
   end
 
-  def decode_response(body), do: body
+  def print_response({:error, reason}) do
+    IO.puts "Error: #{reason}"
+  end
 
-  def print_current_conditions(conditions) do
+  def print_response({:ok, conditions}) do
     IO.puts ~s"""
     Current weather conditions at #{conditions.location} are #{conditions.weather}
     Temperature: #{conditions.temperature_string}

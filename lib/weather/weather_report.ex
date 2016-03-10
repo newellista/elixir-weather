@@ -31,7 +31,6 @@ defmodule Weather.WeatherReport do
   end
 
   def handle_response({:ok, %HTTPoison.Response{ status_code: 404}}), do: { :error, "Not Found" }
-  def handle_response({:error, %HTTPoison.Error{reason: reason}}), do: {:error, reason}
 
   def parse_xml({xml, _}) do
     {:ok, Enum.into(@needed_fields, %{}, fn node_name -> extract_node(xml, node_name) end) }
