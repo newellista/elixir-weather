@@ -35,7 +35,7 @@ defmodule Weather.CLI do
     IO.puts "Error: #{reason}"
   end
 
-  def print_response({:ok, conditions}) do
+  def print_response(conditions) do
     IO.puts ~s"""
     Current weather conditions at #{conditions.location} are #{conditions.weather}
     Temperature: #{conditions.temperature_string}
